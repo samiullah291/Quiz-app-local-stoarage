@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuizMaster | Local Storage Quiz App</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" id="brandHome"><span class="brand-icon">Q</span> QuizMaster</a>
+    <nav>
+      <button class="nav-btn active" data-view="home">Home</button>
+      <button class="nav-btn" data-view="history">History</button>
+      <button class="nav-btn" data-view="admin">Admin</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section id="homeView" class="view">
+      <div class="hero">
+        <div>
+          <span class="eyebrow">LEARN • PRACTICE • IMPROVE</span>
+          <h1>Test your knowledge.<br><span>Track your progress.</span></h1>
+          <p>Take a quiz, challenge yourself and review your results. Your progress is saved in this browser.</p>
+          <button class="primary-btn" id="startQuizBtn">Start Quiz <span>→</span></button>
+          <p class="small-note" id="resumeNote"></p>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="art-circle">?</div>
+          <div class="art-card"><strong>10</strong><span>Questions</span></div>
+          <div class="art-check">✓</div>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <article class="stat-card"><span>Total Attempts</span><strong id="totalAttempts">0</strong></article>
+        <article class="stat-card"><span>Best Score</span><strong id="bestScore">0%</strong></article>
+        <article class="stat-card"><span>Average Score</span><strong id="averageScore">0%</strong></article>
+      </div>
+
+      <div class="section-heading">
+        <div><span class="eyebrow">READY WHEN YOU ARE</span><h2>Quiz overview</h2></div>
+        <span class="pill" id="questionCount">10 Questions</span>
+      </div>
+      <div class="overview-card">
+        <div class="overview-icon">✦</div>
+        <div><h3>General Knowledge</h3><p>Multiple-choice practice • Instant results • Saved history</p></div>
+        <span class="overview-time">⏱ 10 min</span>
+      </div>
+    </section>
+
+    <section id="quizView" class="view hidden">
+      <div class="quiz-top">
+        <button class="text-btn" id="exitQuizBtn">← Exit quiz</button>
+        <div class="timer" id="timer">10:00</div>
+      </div>
+      <div class="progress-meta"><span id="questionProgress">Question 1 of 10</span><span id="answeredProgress">0 answered</span></div>
+      <div class="progress-track"><div id="progressBar"></div></div>
+      <div class="quiz-layout">
+        <article class="question-card">
+          <span class="eyebrow">GENERAL KNOWLEDGE</span>
+          <h2 id="questionText">Question text</h2>
+          <div id="optionsList" class="options-list"></div>
+          <div class="quiz-actions">
+            <button class="secondary-btn" id="previousBtn">Previous</button>
+            <button class="primary-btn" id="nextBtn">Next question →</button>
+            <button class="primary-btn hidden" id="submitBtn">Submit quiz</button>
+          </div>
+        </article>
+        <aside class="palette-card">
+          <h3>Question palette</h3>
+          <p>Choose a question number</p>
+          <div id="questionPalette" class="palette"></div>
+          <div class="palette-legend"><span><i class="legend-dot answered"></i> Answered</span><span><i class="legend-dot current"></i> Current</span></div>
+          <button class="outline-btn full-width" id="submitSideBtn">Finish quiz</button>
+        </aside>
+      </div>
+    </section>
+
+    <section id="resultView" class="view hidden">
+      <div class="result-card">
+        <span class="eyebrow">QUIZ COMPLETED</span>
+        <div class="score-ring" id="scoreRing"><div><strong id="scorePercent">0%</strong><span>YOUR SCORE</span></div></div>
+        <h1 id="resultTitle">Well done!</h1>
+        <p id="resultMessage">Your result has been saved.</p>
+        <div class="result-stats">
+          <div><strong id="correctCount">0</strong><span>Correct</span></div>
+          <div><strong id="wrongCount">0</strong><span>Incorrect</span></div>
+          <div><strong id="unansweredCount">0</strong><span>Unanswered</span></div>
+        </div>
+        <div class="result-actions"><button class="primary-btn" id="retryBtn">Try again</button><button class="secondary-btn" id="reviewBtn">Review answers</button><button class="outline-btn" id="homeBtn">Home</button></div>
+      </div>
+      <div id="reviewArea" class="review-area hidden"></div>
+    </section>
+
+    <section id="historyView" class="view hidden">
+      <div class="section-heading"><div><span class="eyebrow">YOUR PERFORMANCE</span><h1>Quiz history</h1></div><button class="outline-btn" id="clearHistoryBtn">Clear history</button></div>
+      <div id="historyList" class="history-list"></div>
+    </section>
+
+    <section id="adminView" class="view hidden">
+      <div class="section-heading"><div><span class="eyebrow">MANAGE CONTENT</span><h1>Admin panel</h1><p class="muted">Add, edit or delete quiz questions stored in this browser.</p></div></div>
+      <div class="admin-layout">
+        <form id="questionForm" class="admin-form">
+          <h2 id="formTitle">Add a question</h2>
+          <input type="hidden" id="editId">
+          <label for="questionInput">Question</label>
+          <textarea id="questionInput" rows="3" placeholder="Enter your question..." required></textarea>
+          <label>Answer options</label>
+          <input id="optionA" placeholder="Option A" required>
+          <input id="optionB" placeholder="Option B" required>
+          <input id="optionC" placeholder="Option C" required>
+          <input id="optionD" placeholder="Option D" required>
+          <label for="correctInput">Correct answer</label>
+          <select id="correctInput" required>
+            <option value="0">Option A</option><option value="1">Option B</option><option value="2">Option C</option><option value="3">Option D</option>
+          </select>
+          <div class="form-actions"><button class="primary-btn" type="submit" id="saveQuestionBtn">Save question</button><button class="secondary-btn hidden" type="button" id="cancelEditBtn">Cancel</button></div>
+        </form>
+        <div class="admin-questions"><div class="admin-list-heading"><h2>Saved questions</h2><span class="pill" id="adminCount">0</span></div><div id="adminQuestionList"></div></div>
+      </div>
+      <p class="warning-note">Demo note: this admin panel is not password-protected. Local Storage is browser-only and is not secure for private data or real multi-user administration.</p>
+    </section>
+  </main>
+
+  <footer>Built with HTML, CSS, JavaScript & Local Storage</footer>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="script.js"></script>
+</body>
+</html>
